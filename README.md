@@ -1,44 +1,41 @@
 # 🌿 EcoAudit — Community Waste Logger
 
-A lightweight web app for logging disposed waste with **automatic GPS verification**. Built for the CodeChef VITC Projects Department recruitment task.
+A web app for logging disposed waste with automatic GPS verification. Built as part of the CodeChef VITC Projects Department recruitment task.
 
 ---
 
 ## What It Does
 
-- Users log waste by selecting a **category** (Plastic, E-Waste, Organic, etc.) and entering a **weight in kg**
-- On submit, the browser's **native Geolocation API** automatically captures real GPS coordinates — no manual input allowed (anti-fraud)
-- Entries are saved to **Firebase Firestore** and appear in real-time for all users
-- The **Dashboard** shows live aggregate totals per category, a **Leaflet.js map** with pins at each log location, and a chronological feed of all entries
+Users pick a waste category, enter a weight, and submit. The app automatically captures their GPS coordinates on submission — no manual location input, so entries can't be faked. Everything gets saved to Firebase and shows up live on the dashboard for anyone to see, including a map with pins at each log location and running totals per category.
 
 ---
 
 ## Tech Stack
 
-| Layer      | Technology                          |
-|------------|-------------------------------------|
-| Frontend   | Vanilla HTML, CSS, JavaScript (ES Modules) |
-| Database   | Firebase Firestore (real-time NoSQL) |
-| Maps       | Leaflet.js + OpenStreetMap (free, no API key needed) |
-| Deployment | Vercel / Netlify (static hosting)   |
-| Fonts      | Space Grotesk + Space Mono (Google Fonts) |
+| Layer | Technology |
+|---|---|
+| Frontend | Vanilla HTML, CSS, JavaScript |
+| Database | Firebase Firestore |
+| Maps | Leaflet.js + OpenStreetMap |
+| Deployment | Vercel |
 
-No build step. No framework. No npm. One HTML file.
+I went with vanilla JS instead of React because this was my first time building and deploying something end-to-end, and I didn't want a build setup getting in the way of actually shipping it. No npm, no bundler, one HTML file — Vercel deploys it in 30 seconds.
 
 ---
 
 ## Features
 
-### MVP (Required)
+### MVP
 - [x] Waste category + weight form
-- [x] Auto GPS capture via `navigator.geolocation` (no manual location field)
-- [x] All entries displayed on the Dashboard feed
+- [x] Auto GPS capture via `navigator.geolocation` — no manual input allowed
+- [x] Real-time dashboard feed of all entries
 - [x] Live per-category totals + grand total
 - [x] Firebase Firestore persistence
 
 ### Bonus
-- [x] Map visualization with Leaflet.js (pins colored by category)
-- [x] Location error handling (permission denied, unavailable, timeout — all handled with clear UI messages)
+- [x] Leaflet.js map with color-coded pins per category
+- [x] Location error handling — permission denied, GPS unavailable, timeout all handled with clear UI messages
+- [x] "Other" category with custom text input (appears only when selected)
 
 ---
 
@@ -46,77 +43,58 @@ No build step. No framework. No npm. One HTML file.
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/ecoaudit.git
+git clone https://github.com/jaagritimandal/ecoaudit.git
 cd ecoaudit
 ```
 
-### 2. Set up Firebase
+### 2. Add your Firebase config
 
-1. Go to [https://console.firebase.google.com](https://console.firebase.google.com)
-2. Click **Add Project** → name it `ecoaudit` → continue
-3. On the project homepage, click the **`</>`** (Web) icon to add a web app
-4. Register the app, copy the `firebaseConfig` object shown
-5. Go to **Firestore Database** → **Create database** → choose **Start in test mode** → pick any region → Done
-
-### 3. Paste your Firebase config
-
-Open `index.html` and find this block near the top:
+Go to [console.firebase.google.com](https://console.firebase.google.com), create a project, enable Firestore in test mode, register a web app, and paste your config into `index.html` here:
 
 ```js
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
   ...
 };
 ```
 
-Replace the placeholder values with your actual config from step 2.
+### 3. Serve locally
 
-### 4. Open the app
+You need a local server because of ES Modules — just opening the file won't work.
 
-Because this uses ES Modules, you need a local server (not just opening the file directly).
-
-**Option A — VS Code Live Server extension:**
-Right-click `index.html` → "Open with Live Server"
-
-**Option B — Python:**
 ```bash
+# Python
 python -m http.server 8000
-# then open http://localhost:8000
-```
 
-**Option C — Node.js:**
-```bash
+# or Node
 npx serve .
 ```
 
----
-
-## Deployment (Vercel — recommended)
-
-1. Push your code to a **public GitHub repository**
-2. Go to [https://vercel.com](https://vercel.com) → **Add New Project**
-3. Import your GitHub repo
-4. Click **Deploy** — Vercel will detect it's a static site automatically
-5. Your live URL will appear in ~30 seconds
-
-> ⚠️ Make sure your Firebase config is already filled in before deploying.
+Then open `http://localhost:8000`.
 
 ---
 
-## Project Structure
+## What I'd Improve With More Time
 
-```
-ecoaudit/
-└── index.html      # Entire app (HTML + CSS + JS in one file, intentionally minimal)
-└── README.md
-```
-
-The app is intentionally a single file — there's no build step, no bundler, and no framework overhead. Firebase and Leaflet are loaded via CDN. This makes deployment trivially simple.
+- **Better UI** — the current design is clean but I'd push it further, more polish on mobile especially
+- **User accounts** — right now anyone can log anything anonymously. Adding Firebase Auth would let you tie entries to verified users, which makes the anti-fraud angle actually meaningful
+- **Firestore security rules** — currently in test mode (open read/write). Production would need proper rules locked to authenticated users
 
 ---
 
-## Firebase Security Note
+## How I Built This
 
-The Firestore database is in **test mode** for this submission (open read/write). For a production app, you would add Firestore Security Rules and Firebase Auth before going public.
+First time building something fully from scratch and deploying it. I'd done bits before — written JS, used APIs — but never the whole pipeline. The GPS part was new to me (figuring out how `navigator.geolocation` works and how to handle all the edge cases like denial and timeout). Same with Leaflet — hadn't used a map library before. Designed the UI in Figma first, then coded it to match. Used AI tools to understand steps I hadn't done before, looked up docs and debugged along the way.
+
+---
+
+## Links
+
+- **Live app:** https://ecoaudit-q2m4c3jb8-jaagritimandals-projects.vercel.app
+- **GitHub:** https://github.com/jaagritimandal/ecoaudit
+
+---
+
+*Built by Jaagriti Mandal*
