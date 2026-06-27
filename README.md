@@ -1,4 +1,4 @@
-# 🌿 EcoAudit — Community Waste Logger
+# 🌿 EcoAudit : Community Waste Logger
 
 A web app for logging disposed waste with automatic GPS verification. Built as part of the CodeChef VITC Projects Department recruitment task.
 
@@ -19,7 +19,7 @@ Users pick a waste category, enter a weight, and submit. The app automatically c
 | Maps | Leaflet.js + OpenStreetMap |
 | Deployment | Vercel |
 
-I went with vanilla JS instead of React because this was my first time building and deploying something end-to-end, and I didn't want a build setup getting in the way of actually shipping it. No npm, no bundler, one HTML file — Vercel deploys it in 30 seconds.
+I went with vanilla JS instead of React because this was my first time building and deploying something end-to-end, and I didn't want a build setup getting in the way of actually shipping it. Used Vercel t deploy.
 
 ---
 
@@ -62,7 +62,7 @@ const firebaseConfig = {
 
 ### 3. Serve locally
 
-You need a local server because of ES Modules — just opening the file won't work.
+You need a local server because of ES Modules, just opening the file won't work.
 
 ```bash
 # Python
@@ -86,7 +86,7 @@ Then open `http://localhost:8000`.
 
 ## How I Built This
 
-First time building something fully from scratch and deploying it. I'd done bits before — written JS, used APIs — but never the whole pipeline. The GPS part was new to me (figuring out how `navigator.geolocation` works and how to handle all the edge cases like denial and timeout). Same with Leaflet — hadn't used a map library before. Designed the UI in Figma first, then coded it to match. Used AI tools to understand steps I hadn't done before, looked up docs and debugged along the way.
+First time building something fully from scratch and deploying it. I'd done bits before : written JS, used APIs, but never the whole pipeline. The GPS part was new to me (figuring out how `navigator.geolocation` works and how to handle all the edge cases like denial and timeout). Same with Leaflet, hadn't used a map library before. Designed the UI in Figma first, then coded it to match. Used AI tools to understand steps I hadn't done before, looked up docs and debugged along the way.
 
 ---
 
